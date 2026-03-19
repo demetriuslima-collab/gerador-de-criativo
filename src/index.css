@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --suno-red: #cc0000;
+  --suno-red-dark: #aa0000;
+  --suno-red-light: rgba(204, 0, 0, 0.12);
+  --suno-bg: #111111;
+  --suno-surface: #1a1a1a;
+  --suno-border: #2a2a2a;
+  --suno-text: #e8e8e8;
+  --suno-muted: #888888;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--suno-bg);
+  color: var(--suno-text);
+}
+
+#root {
+  width: 100%;
+  min-height: 100svh;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--suno-red);
+}
+
+textarea {
+  resize: none;
+  outline: none;
+}
