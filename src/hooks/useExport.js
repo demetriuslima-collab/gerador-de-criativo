@@ -26,8 +26,9 @@ export function useExport(ref) {
           dataUrl = await toPng(ref.current, options)
         }
 
+        const id = Math.random().toString(36).slice(2, 8)
         const link = document.createElement('a')
-        link.download = `social-hack.${format}`
+        link.download = `social-hack-${id}.${format}`
         link.href = dataUrl
         link.click()
       } catch (err) {
