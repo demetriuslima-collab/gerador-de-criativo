@@ -1,7 +1,8 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { useTweetStore } from './store/tweetStore'
 import { TweetCard } from './components/preview/TweetCard'
 import { ControlPanel } from './components/controls/ControlPanel'
+import { CopyPanel } from './components/controls/CopyPanel'
 import { ExportPanel } from './components/ui/ExportPanel'
 import { useExport } from './hooks/useExport'
 import { RATIOS } from './lib/defaults'
@@ -18,6 +19,7 @@ export default function App() {
   const exportRef = useRef(null)
   const { tweet } = useTweetStore()
   const { exportAs, copyToClipboard, exporting } = useExport(exportRef)
+  const [copyOpen, setCopyOpen] = useState(true)
 
   const ratio = RATIOS[tweet.ratio] || RATIOS['1:1']
   const canvasBg = THEME_CANVAS_BG[tweet.theme] || THEME_CANVAS_BG.dark
@@ -47,9 +49,34 @@ export default function App() {
 
       {/* Right panel — canvas */}
       <main
-        className="flex-1 flex items-center justify-center overflow-auto"
+        className="flex-1 flex items-center justify-center overflow-auto relative"
         style={{ backgroundColor: 'var(--suno-bg)' }}
       >
+        {/* Botão reabrir Suno Copy (só aparece quando fechado) */}
+        {!copyOpen && (
+          <button
+            onClick={() => setCopyOpen(true)}
+            style={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              padding: '6px 14px',
+              borderRadius: '20px',
+              border: '1px solid var(--suno-border)',
+              backgroundColor: 'rgba(255,255,255,0.04)',
+              color: 'var(--suno-muted)',
+              fontSize: '12px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+              zIndex: 10,
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#555'; e.currentTarget.style.color = '#fff' }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--suno-border)'; e.currentTarget.style.color = 'var(--suno-muted)' }}
+          >
+            ✦ Suno Copy
+          </button>
+        )}
         <div className="flex flex-col items-center gap-5 p-8">
           {/* Live label */}
           <div className="flex items-center gap-2">
@@ -110,6 +137,56 @@ export default function App() {
           </p>
         </div>
       </main>
+      {/* Suno Copy — painel direito */}
+      {copyOpen && (
+        <aside
+          style={{
+            width: '300px',
+            flexShrink: 0,
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: 'var(--suno-surface)',
+            borderLeft: '1px solid var(--suno-border)',
+          }}
+        >
+          {/* Header do painel */}
+          <div style={{
+            padding: '16px 20px',
+            borderBottom: '1px solid var(--suno-border)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexShrink: 0,
+          }}>
+            <p style={{ fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--suno-muted)', margin: 0 }}>
+              Suno Copy
+            </p>
+            <button
+              onClick={() => setCopyOpen(false)}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'var(--suno-muted)',
+                cursor: 'pointer',
+                fontSize: '16px',
+                lineHeight: 1,
+                padding: '2px 4px',
+                borderRadius: '4px',
+                transition: 'color 0.15s',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#fff'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--suno-muted)'}
+            >
+              ✕
+            </button>
+          </div>
+          {/* Conteúdo scrollável */}
+          <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
+            <CopyPanel />
+          </div>
+        </aside>
+      )}
     </div>
   )
 }

@@ -177,32 +177,37 @@ export function ControlPanel() {
   }
 
   return (
-    <div style={{ height: '100%', overflowY: 'auto', padding: '20px' }}>
+    <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 
-      {/* Header com logo Suno */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
-        <div>
-          {/* Logo Suno inline */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '2px', marginBottom: '2px' }}>
-            <span style={{ color: 'var(--suno-red)', fontSize: '18px', fontWeight: '300', lineHeight: 1 }}>(</span>
-            <span style={{ color: 'var(--suno-text)', fontSize: '15px', fontWeight: '600', letterSpacing: '3px', lineHeight: 1 }}>SUNO</span>
-            <span style={{ color: 'var(--suno-red)', fontSize: '18px', fontWeight: '300', lineHeight: 1 }}>)</span>
+      {/* Header fixo (não scrolla) */}
+      <div style={{ padding: '20px 20px 16px', flexShrink: 0, borderBottom: '1px solid var(--suno-border)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '2px', marginBottom: '2px' }}>
+              <span style={{ color: 'var(--suno-red)', fontSize: '18px', fontWeight: '300', lineHeight: 1 }}>(</span>
+              <span style={{ color: 'var(--suno-text)', fontSize: '15px', fontWeight: '600', letterSpacing: '3px', lineHeight: 1 }}>SUNO</span>
+              <span style={{ color: 'var(--suno-red)', fontSize: '18px', fontWeight: '300', lineHeight: 1 }}>)</span>
+            </div>
+            <p style={{ fontSize: '11px', color: 'var(--suno-muted)', letterSpacing: '0.5px' }}>Social Hack · Gerador de criativos</p>
           </div>
-          <p style={{ fontSize: '11px', color: 'var(--suno-muted)', letterSpacing: '0.5px' }}>Social Hack · Gerador de criativos</p>
+          <button
+            onClick={reset}
+            style={{
+              fontSize: '11px', color: 'var(--suno-muted)', border: '1px solid var(--suno-border)',
+              borderRadius: '6px', padding: '4px 10px', background: 'none', cursor: 'pointer',
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={(e) => { e.target.style.color = '#fff'; e.target.style.borderColor = '#555' }}
+            onMouseLeave={(e) => { e.target.style.color = 'var(--suno-muted)'; e.target.style.borderColor = 'var(--suno-border)' }}
+          >
+            Resetar
+          </button>
         </div>
-        <button
-          onClick={reset}
-          style={{
-            fontSize: '11px', color: 'var(--suno-muted)', border: '1px solid var(--suno-border)',
-            borderRadius: '6px', padding: '4px 10px', background: 'none', cursor: 'pointer',
-            transition: 'all 0.15s',
-          }}
-          onMouseEnter={(e) => { e.target.style.color = '#fff'; e.target.style.borderColor = '#555' }}
-          onMouseLeave={(e) => { e.target.style.color = 'var(--suno-muted)'; e.target.style.borderColor = 'var(--suno-border)' }}
-        >
-          Resetar
-        </button>
       </div>
+
+      {/* Conteúdo scrollável */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
+        <>
 
       {/* Presets */}
       <Section title="Perfil Rápido">
@@ -453,6 +458,8 @@ export function ControlPanel() {
           </div>
         )}
       </Section>
+        </>
+      </div>
     </div>
   )
 }
